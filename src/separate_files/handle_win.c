@@ -2,25 +2,11 @@
 
 #define X_WON_BITMASK                   0b10000000U
 #define O_WON_BITMASK                   0b01000000U
+#define HORIZONTAL_WIN_BITMASK          0b00100000U
+#define VERTICAL_WIN_BITMASK            0b00010000U
 #define ASCENDING_DIAGONAL_BITMASK      0b00001000U
 #define DESCENDING_DIAGONAL_BITMASK     0b00000100U
 
-
-/*
-
-enum GridCellSymbol_t {
-    EMPTY_CELL_SYMBOL,
-    X_CELL_SYMBOL,
-    O_CELL_SYMBOL
-};
-
-enum GridCellSymbol_t gameGrid[3][3] = {
-    {EMPTY_CELL_SYMBOL, EMPTY_CELL_SYMBOL, EMPTY_CELL_SYMBOL},
-    {EMPTY_CELL_SYMBOL, EMPTY_CELL_SYMBOL, EMPTY_CELL_SYMBOL},
-    {EMPTY_CELL_SYMBOL, EMPTY_CELL_SYMBOL, EMPTY_CELL_SYMBOL}
-};
-
-*/
 
 void handle_win(void) {
     /*
@@ -34,12 +20,14 @@ void handle_win(void) {
         if(((gameGrid[i][0]) == (gameGrid[i][1])) & ((gameGrid[i][1]) == (gameGrid[i][2]))) {
             switch(gameGrid[i][0]) {
                 case X_CELL_SYMBOL:
-                    winType |= X_WON_BITMASK;   // Register that if was X that won
-                    winType |= i;               // Register which row of X was the one that won
+                    winType |= X_WON_BITMASK;           // Register that if was X that won
+                    winType |= HORIZONTAL_WIN_BITMASK;  // Register that it was a horizontal win
+                    winType |= i;                       // Register which row of X was the one that won
                     break;
                 case O_CELL_SYMBOL:
-                    winType |= O_WON_BITMASK;   // Register that if was O that won
-                    winType |= i;               // Register which column of O was the one that won
+                    winType |= O_WON_BITMASK;           // Register that if was O that won
+                    winType |= HORIZONTAL_WIN_BITMASK;  // Register that it was a horizontal win
+                    winType |= i;                       // Register which column of O was the one that won
                     break;
                 case EMPTY_CELL_SYMBOL:
                     break;
@@ -53,12 +41,14 @@ void handle_win(void) {
         if(((gameGrid[0][i]) == (gameGrid[1][i])) & ((gameGrid[1][i]) == (gameGrid[2][i]))) {
             switch(gameGrid[0][i]) {
                 case X_CELL_SYMBOL:
-                    winType |= X_WON_BITMASK;   // Register that if was X that won
-                    winType |= i;               // Register which row of X was the one that won
+                    winType |= X_WON_BITMASK;           // Register that if was X that won
+                    winType |= VERTICAL_WIN_BITMASK;    // Register that it was a vertical win
+                    winType |= i;                       // Register which row of X was the one that won
                     break;
                 case O_CELL_SYMBOL:
-                    winType |= O_WON_BITMASK;   // Register that if was O that won
-                    winType |= i;               // Register which column of O was the one that won
+                    winType |= O_WON_BITMASK;           // Register that if was O that won
+                    winType |= VERTICAL_WIN_BITMASK;    // Register that it was a vertical win
+                    winType |= i;                       // Register which column of O was the one that won
                     break;
                 case EMPTY_CELL_SYMBOL:
                     break;
@@ -110,12 +100,18 @@ void handle_win(void) {
         }
 
         if(winType & DESCENDING_DIAGONAL_BITMASK) {
-
+            // Now we have the type of line to draw, and we also have the symbol to draw the line on top of. We have all the info we want.
         } else if (winType & ASCENDING_DIAGONAL_BITMASK) {
-
+            // Now we have the type of line to draw, and we also have the symbol to draw the line on top of. We have all the info we want.
         } else {
             uint8_t drawLinePosition = (winType & 0b11); // The first two bytes have the information we want here
-            
+
+            if(winType & HORIZONTAL_WIN_BITMASK) {
+                // Now we have the line number to draw the line in, the type of line to draw line in, and we also have the symbol to draw the line on top of. We have all the info we want.
+
+            } else if (winType & VERTICAL_WIN_BITMASK) {
+                // Now we have the line number to draw the line in, the type of line to draw line in, and we also have the symbol to draw the line on top of. We have all the info we want.
+            }
         }
     } else {
         uint8_t symbolCount = 0; // To check for tie
