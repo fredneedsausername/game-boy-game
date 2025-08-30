@@ -2,6 +2,8 @@
 
 enum GridCellSymbol_t currentTurn = O_CELL_SYMBOL; // It will immediately be switched to be X
 
+bool enableFlipCursorVisibility;
+
 struct Coordinate_t cursorPosition = {.x=1, .y=1};
 
 enum GridCellSymbol_t gameGrid[3][3] = {

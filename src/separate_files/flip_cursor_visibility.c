@@ -7,7 +7,7 @@ void flip_cursor_visibility(void) {
     // Flip cursor visibility
     if(++frameCount >= 30) {
         
-        if(isCursorVisible) {       // Hide cursor sprite
+        if(isCursorVisible & enableFlipCursorVisibility) {       // Hide cursor sprite
             isCursorVisible = 0;
             move_sprite(0, 0, 0);
         } else {                    // Show cursor sprite

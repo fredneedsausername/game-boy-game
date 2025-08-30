@@ -7,6 +7,13 @@ void accept_move(void) {
     int8_t xIncrement;
     int8_t yIncrement;
     uint8_t pixelScrollAmount;
+    struct Coordinate_t newCursorPosition;
+    int8_t xDifference;
+    int8_t yDifference;
+    int8_t xCounter;
+    int8_t yCounter;
+    int8_t xLimit;
+    int8_t yLimit;
 
     while(1) {
         do {
@@ -125,8 +132,98 @@ void accept_move(void) {
             }
         }
 
-        pixelScrollAmount = 40 * movementAmount;
+        if (movementAmount) {
+            pixelScrollAmount = 40 * movementAmount;
 
-        scroll_sprite(0, pixelScrollAmount * xIncrement, pixelScrollAmount * yIncrement);
+            // Move cursor
+            scroll_sprite(0, pixelScrollAmount * xIncrement, pixelScrollAmount * yIncrement);
+
+        } else { // if that direction is blocked, look for potential diagonal jumps
+
+            if(
+                ((int8_t) (xIncrement + cursorPosition.x) == -1) | ((int8_t) (xIncrement + cursorPosition.x) == 3) |
+                ((int8_t) (yIncrement + cursorPosition.y) == -1) | ((int8_t) (yIncrement + cursorPosition.y) == 3)
+            ) {
+                continue;
+            }
+
+            // If the direction is horizontal
+            if (xIncrement) {
+
+                if (cursorPosition.y) {
+                    yIncrement = -1;
+                    yCounter = 2;
+                    yLimit = -1;
+                } else {
+                    yIncrement = 1;
+                    yCounter = 0;
+                    yLimit = 3;
+                }
+
+                for(int8_t i = cursorPosition.x + xIncrement; ((i != -1) & (i != 3)); i += xIncrement) {
+                    for(int8_t j = yCounter; j != yLimit; j += yIncrement) {
+                        if(gameGrid[i][j] == EMPTY_CELL_SYMBOL) {
+                            newCursorPosition.x = i;
+                            newCursorPosition.y = j;
+                            i = -1 - xIncrement; // Exit outer loop
+                            break;
+                        }
+                    }
+                    // Be careful to add code here: if we just exited the inner loop and the if condition was true then 'i' is sure to kick us out of the loop after this 
+                }
+
+                yCounter = 0;
+                yIncrement = 0;
+                yLimit = 0;
+
+            }
+
+            // If the direction is vertical
+            if (yIncrement) {
+
+                if (cursorPosition.x) {
+                    xIncrement = -1;
+                    xCounter = 2;
+                    xLimit = -1;
+                } else {
+                    xIncrement = 1;
+                    xCounter = 0;
+                    xLimit = 3;
+                }
+
+                for(int8_t i = cursorPosition.y + yIncrement; ((i != -1) & (i != 3)); i += yIncrement) {
+                    for(int8_t j = xCounter; j != xLimit; j += xIncrement) {
+                        if(gameGrid[j][i] == EMPTY_CELL_SYMBOL) {
+                            newCursorPosition.x = j;
+                            newCursorPosition.y = i;
+                            i = -1 - yIncrement; // Exit outer loop
+                            break;
+                        }
+                    }
+                    // Be careful to add code here: if we just exited the inner loop and the if condition was true then 'i' is sure to kick us out of the loop after this 
+                }
+
+                xCounter = 0;
+                xIncrement = 0;
+                xLimit = 0;
+
+            }
+
+            xDifference = newCursorPosition.x - cursorPosition.x;
+
+            // If the new cursor has moved at all, then all coordinates must have changed by at least one unit. Explaining why would take longer than for you to think about it.
+            if (xDifference) { // if the cursor has moved at all
+
+                yDifference = newCursorPosition.y - cursorPosition.y;
+
+                // Move the cursor
+                cursorPosition = newCursorPosition;
+                scroll_sprite(0, 40 * xDifference, 40 * yDifference);
+
+            } else { // If the cursor hasn't moved
+                continue;
+            }
+        }
+        
     }
 }

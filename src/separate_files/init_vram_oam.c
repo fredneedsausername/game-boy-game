@@ -14,6 +14,7 @@ void init_vram_oam(void) {
 	// Load game symbols
 	set_bkg_data(symbol_x_tiles_start, symbol_x_map_tiles, symbol_x_tiles);
 	set_bkg_data(symbol_o_tiles_start, symbol_o_map_tiles, symbol_o_tiles);
+	set_bkg_data(empty_square_start, empty_square_map_tiles, empty_square_tiles);
 
     // Load grid cell selection cursor
     set_sprite_data(0, cursor_tiles_count, cursor_tiles);

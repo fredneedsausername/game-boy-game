@@ -1,6 +1,6 @@
 #include "separate_files.h"
 
-void pass_turn() {
+void pass_turn(void) {
     if (currentTurn == X_CELL_SYMBOL) {
         currentTurn = O_CELL_SYMBOL;
     } else {
@@ -8,5 +8,5 @@ void pass_turn() {
     }
 
     // Update "turn" text
-    draw_current_symbol(16, 8);
+    draw_symbol(16, 8, currentTurn);
 }

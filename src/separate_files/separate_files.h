@@ -2,6 +2,7 @@
 
 #include <gb/gb.h>
 #include <rand.h>
+#include <stdbool.h>
 #include "assets/cursor_tiles.h"
 #include "assets/game_background_map.h"
 #include "assets/game_background_tiles.h"
@@ -9,9 +10,12 @@
 #include "assets/symbol_o_tiles.h"
 #include "assets/symbol_x_map.h"
 #include "assets/symbol_x_tiles.h"
+#include "assets/empty_square_map.h"
+#include "assets/empty_square_tiles.h"
 
 #define symbol_x_tiles_start 56
 #define symbol_o_tiles_start 65
+#define empty_square_start 74
 
 // --- STRUCTS ---
 
@@ -33,6 +37,7 @@ enum GridCellSymbol_t {
 extern enum GridCellSymbol_t currentTurn;
 extern enum GridCellSymbol_t gameGrid[3][3];
 extern struct Coordinate_t cursorPosition;
+extern bool enableFlipCursorVisibility;
 
 // --- FUNCTIONS ---
 
@@ -46,4 +51,5 @@ void accept_move(void);      // Returns only when the player has inserted a vali
 void flip_cursor_visibility(void); // VBL interrupt handler
 void init_interrupts(void);
 void place_symbol(void); // takes cursor position information and symbol to place (current turn) from global variables. Make sure to vsync first!
-void draw_current_symbol(uint8_t xTileCoordinate, uint8_t yTileCoordinate);
+void draw_symbol(uint8_t xTileCoordinate, uint8_t yTileCoordinate, enum GridCellSymbol_t symbol);
+void handle_win(void);
