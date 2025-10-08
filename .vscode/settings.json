@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "rand.h": "c",
+        "fredlib.h": "c",
+        "game_background_map.h": "c",
+        "gb.h": "c",
+        "separate_files.h": "c",
+        "game_background_tiles.h": "c",
+        "cursor_tiles.h": "c",
+        "symbol_x_map.h": "c",
+        "symbol_x_tiles.h": "c",
+        "empty_square_tiles.h": "c"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "inputs": [
+        {
+            "id": "buildMode",
+            "type": "pickString",
+            "description": "Choose build mode",
+            "options": ["debug", "release"]
+        }
+    ],
+    "configurations": [
+        {
+            "type": "emulicious-debugger",
+            "request": "launch",
+            "name": "Run Game (prompt for mode)",
+            "program": "${workspaceFolder}/bin/${input:buildMode}/game.gb",
+            "port": 30000,
+            "preLaunchTask": "Build Game Boy ROM (${input:buildMode})",
+            "postDebugTask": "Kill Emulicious (jar)"
+        }
+    ]
+}

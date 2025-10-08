@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Game Boy ROM (debug)",
+            "type": "shell",
+            "command": "make",
+            "args": ["MODE=debug"],
+            "group": {"kind": "build"}
+        },
+        {
+            "label": "Build Game Boy ROM (release)",
+            "type": "shell",
+            "command": "make",
+            "args": ["MODE=release"],
+            "group": {"kind": "build"}
+        },
+        {
+            "label": "Kill Emulicious (jar)",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-NonInteractive",
+                "-Command",
+                "Get-CimInstance Win32_Process -Filter \"Name='javaw.exe'\" | Where-Object { $_.CommandLine -like '*Emulicious*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }"
+            ],
+            "presentation": { "reveal": "never" }
+        }
+    ]
+}

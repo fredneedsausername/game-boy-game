@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "fred_game_boy_config",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/gbdk/include"
+            ],
+            "defines": ["__PORT_sm83", "__TARGET_gb"],
+            "compilerPath": "",
+            "cStandard": "c11",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
